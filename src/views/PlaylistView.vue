@@ -52,12 +52,6 @@
                     </tr>
                     </tfoot>
                 </table>
-
-
-
-
-
-
         </div>
     </div>
 </template>
@@ -67,64 +61,78 @@
     import { useTokenStore } from '@/stores/tokenStore';
     import { onMounted, ref } from 'vue';
     import PlaylistTrackComponent from '@/components/PlaylistTrackComponent.vue';
+
     const tokenStore = useTokenStore();
+    const playlistID = window.location.href.split('/')[4];
 
-    const playlistID = window.location.href.split('/')[4]
-    console.log(playlistID)
+    interface Artist {
+        name: string;
+    }
 
-    const playlistName = ref("");
-    const playlistDescription = ref("");
-    const playlistImage = ref("");
-    const playlistTracks = ref([]);
-    const playlistOwner = ref("");
-    const playlistFollowers = ref(0)
-    const num = ref(1)
-    
+    interface Album {
+        name: string;
+        images: Array<{ url: string }>;
+    }
 
-    const getCurrentPlaylist = async() =>{
+    interface Track {
+        id: string;
+        name: string;
+        artists: Artist[];
+        album: Album;
+        duration_ms: number;
+    }
+
+    interface PlaylistTrack {
+        track: Track;
+    }
+
+    interface Playlist {
+        name: string;
+        description: string;
+        images: Array<{ url: string }>;
+        tracks: {
+            items: PlaylistTrack[];
+        };
+        owner: {
+            display_name: string;
+        };
+        followers: {
+            total: number;
+        };
+    }
+
+    const playlistName = ref<string>("");
+    const playlistDescription = ref<string>("");
+    const playlistImage = ref<string>("");
+    const playlistTracks = ref<PlaylistTrack[]>([]);
+    const playlistOwner = ref<string>("");
+    const playlistFollowers = ref<number>(0);
+
+    const getCurrentPlaylist = async () => {
         try {
-            const response = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`,{
-            headers:{
+            const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${playlistID}`, {
+                headers: {
                     Authorization: "Bearer " + tokenStore.tokenValue,
                     "Content-Type": "application/json",
                 },
-            }
-            
-        )
-        console.log(response.data)
-        playlistName.value = await response.data.name;
-        playlistDescription.value = await response.data.description.startsWith("<a") ? "" : response.data.description
-        playlistImage.value = await response.data.images[0].url
-        playlistTracks.value = await response.data.tracks.items
-        playlistOwner.value = await response.data.owner.display_name
-        playlistFollowers.value = await response.data.followers.total
+            });
 
-        console.log(playlistTracks.value)
-        /*
-       const selectedPlaylist.value = {
-            id: response.data.id,
-            name: response.data.name,
-            description: response.data.description.startsWith("<a") ? "" : response.data.description,
-            image: response.data.images[0].url,
-            tracks: response.data.tracks.items.map(({track} : any) => ({
-                id: track.id,
-                name: track.name,
-                artists: track.artists.map((artists : any) => artists.name),
-                image: track.album.images[2].url,
-                duration: track.duration_ms,
-                album: track.album.name,
-                context_uri: track.album.uri,
-                track_number: track.track_number
-            })),
-        };
-        */
-            
+            const data = response.data;
+
+            playlistName.value = data.name;
+            playlistDescription.value = data.description.startsWith("<a") ? "" : data.description;
+            playlistImage.value = data.images[0].url;
+            playlistTracks.value = data.tracks.items;
+            playlistOwner.value = data.owner.display_name;
+            playlistFollowers.value = data.followers.total;
+
+            console.log(playlistTracks.value);
         } catch (error) {
-            console.log('Get tracks from playlist error: '+ error)
+            console.log('Get tracks from playlist error: ' + error);
         }
-    }
+    };
 
-    onMounted(async()=>{
+    onMounted(async () => {
         await getCurrentPlaylist();
-    })
+    });
 </script>

@@ -22,6 +22,5 @@
     import NavbarComponent from '@/components/NavbarComponent.vue';
     import SidebarComponent from '@/components/SidebarComponent.vue';
     import PlayerComponent from '@/components/PlayerComponent.vue';
-    import HomePageView from './HomePageView.vue';
     import NowIsPlayingComponent from '@/components/NowIsPlayingComponent.vue';
 </script>

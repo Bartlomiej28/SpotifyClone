@@ -17,8 +17,8 @@ const router = createRouter({
       component: ProfilePageView,
       redirect: to => `/profile/${to.params.id}/popular`,  
       children: [
-        { path: 'popular', component: ProfilePopularView },  // Podstrona 'popular' wewnątrz 'profile'
-        { path: 'albums', component: ProfileAlbumsView }    // Podstrona 'albums' wewnątrz 'profile'
+        { path: 'popular', component: ProfilePopularView },  
+        { path: 'albums', component: ProfileAlbumsView }  
       ]
     },
     { path: '/album/:id', component: AlbumPageView },

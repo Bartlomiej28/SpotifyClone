@@ -15,9 +15,20 @@
     import { onMounted } from 'vue';
     import { ref } from 'vue';
     import PlaylistComponent from './PlaylistComponent.vue';
-    const tokenStore = useTokenStore();
-    const playlists = ref([])
 
+    type Playlist = {
+        id: string;
+        name: string;
+        owner: {
+            display_name: string;
+        };
+        images: Array<{ url: string }>;
+    }
+
+
+    const tokenStore = useTokenStore();
+    const playlists = ref<Playlist[]>([]);
+    
     const getPlaylists = async() =>{
         try {
             const response = await axios.get("https://api.spotify.com/v1/me/playlists",

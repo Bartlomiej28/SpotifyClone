@@ -32,7 +32,7 @@
                     <AlbumTrackComponent v-for="(track, index) in albumTracks"
                         :id="track.id"
                         :title="track.name"
-                        :author="track.artists.map((artists: any) =>' '+ artists.name)"
+                        :author="track.artists.map((artists) =>' '+ artists.name)"
                         :duration="track.duration_ms"
                         :number="index + 1"/>
                 </tbody>
@@ -61,44 +61,58 @@
 
     const tokenStore = useTokenStore();
 
-    const albumID = window.location.href.split('/')[4]
+    const albumID = window.location.href.split('/')[4];
 
+    type Artist ={
+        name: string;
+    }
 
-    const albumName = ref("");
-    const albumTotalTracks = ref(0);
-    const albumThumbnail = ref("");
-    const albumTracks = ref([]);
-    const albumOwner = ref("");
+    type Track ={
+        id: string;
+        name: string;
+        artists: Artist[];
+        duration_ms: number;
+    }
 
+    type Album = {
+        id: string;
+        name: string;
+        total_tracks: number;
+        images: Array<{ url: string }>;
+        artists: Artist[];
+        tracks: {
+            items: Track[];
+        };
+    }
 
-    
+    const albumName = ref<string>("");
+    const albumTotalTracks = ref<number>(0);
+    const albumThumbnail = ref<string>("");
+    const albumTracks = ref<Track[]>([]);
+    const albumOwner = ref<string>("");
 
-    const getAlbum = async() =>{
+    const getAlbum = async () => {
         try {
-            const response = await axios.get(`https://api.spotify.com/v1/albums/${albumID}`,{
-            headers:{
+            const response = await axios.get<Album>(`https://api.spotify.com/v1/albums/${albumID}`, {
+                headers: {
                     Authorization: "Bearer " + tokenStore.tokenValue,
                     "Content-Type": "application/json",
                 },
-            }
-            
-        )
-        console.log(response.data)
-        const {images, name, tracks, total_tracks, artists} = response.data
-        
-        albumName.value = name;
-        albumThumbnail.value = images[0].url
-        albumTracks.value = tracks.items
-        albumOwner.value = artists[0].name
-        albumTotalTracks.value = total_tracks
-       
-            
-        } catch (error) {
-            console.log('Get tracks from playlist error: '+ error)
-        }
-    }
+            });
 
-    onMounted(async()=>{
+            const { images, name, tracks, total_tracks, artists } = response.data;
+
+            albumName.value = name;
+            albumThumbnail.value = images[0].url;
+            albumTracks.value = tracks.items;
+            albumOwner.value = artists[0].name;
+            albumTotalTracks.value = total_tracks;
+        } catch (error) {
+            console.log('Get tracks from album error: ' + error);
+        }
+    };
+
+    onMounted(async () => {
         await getAlbum();
-    })
+    });
 </script>

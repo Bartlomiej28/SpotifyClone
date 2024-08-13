@@ -43,7 +43,6 @@
     import { useCurrentPlayingStore } from '@/stores/CurrentPlayingStore';
     import ChangeTrackComponent from './ChangeTrackComponent.vue';
     import PlayPauseComponent from './PlayPauseComponent.vue';
-    
 
     
     const tokenStore = useTokenStore();
@@ -70,7 +69,7 @@
 
     trackID.value = item.id;
     trackName.value = item.name;
-    trackArtists.value = item.artists.map((artist) => " " + artist.name);
+    trackArtists.value = item.artists.map((artist: { name: string }) => " " + artist.name);
     trackThumbnail.value = item.album.images[0].url;
     trackAuthorID.value = item.artists[0].id;
 

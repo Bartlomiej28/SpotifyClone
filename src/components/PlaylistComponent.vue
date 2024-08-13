@@ -7,7 +7,7 @@
                 <p class="text-white">{{ props.title }}</p>
                 <p class="text-[#9c9c9c] text-sm">{{ props.owner}}</p>
             </div>
-        </RouterLink>
+    </RouterLink>
 </template>
 
 <script setup lang="ts">
