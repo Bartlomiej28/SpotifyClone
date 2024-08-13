@@ -1,0 +1,59 @@
+<template>
+    <div class="w-full h-full flex flex-col">
+        <div class="w-full h-60">
+            <img :src="profileThumbnail" alt="About the Felix Jaehn" class="w-full h-full object-cover object-center rounded-t-xl"/>
+        </div>
+        <div class="w-full h-auto flex flex-col gap-0 p-4 bg-[#242424] rounded-b-xl">
+            <RouterLink :to="`/profile/${profileID}`" class="text-xl font-bold text-white cursor-pointer hover:underline">{{ profileName }}</RouterLink>
+            <div class="w-full flex flex-row justify-between items-center">
+                <p class="text-[#9c9c9c]">{{ followers }} słuchaczy w tym miesiącu</p>
+                <button class="px-4 py-2 text-white border border-[#9c9c9c] rounded-full">Obserwuj</button>
+            </div>
+            <p class="w-full h-28 text-ellipsis text-[#9c9c9c] text-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi debitis, ab ipsam, itaque tenetur nisi rerum officia eveniet incidunt possimus vel nesciunt quo vero reiciendis, pariatur voluptas labore molestiae culpa!
+            </p>
+        </div>
+    </div>
+</template>
+
+<script setup lang="ts">
+    import { useTokenStore } from '@/stores/tokenStore';
+    import { onMounted, ref, watch } from 'vue';
+    import axios from 'axios';
+    import { useCurrentPlayingStore } from '@/stores/CurrentPlayingStore';
+
+    const currentPlaying = useCurrentPlayingStore();
+    const tokenStore = useTokenStore();
+    const profileID = ref("");
+    const followers = ref(0);
+    const profileThumbnail = ref("");
+    const profileName = ref("");
+
+    const getArtistData = async () => {
+        try {
+            const response = await axios.get(`https://api.spotify.com/v1/artists/${currentPlaying.authorID}`, {
+                headers: {
+                    Authorization: "Bearer " + tokenStore.tokenValue,
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log(response.data);
+            const { id, images, followers: artistFollowers, name } = response.data;
+            followers.value = artistFollowers.total;
+            profileID.value = id;
+            profileName.value = name;
+            profileThumbnail.value = images[0].url;
+
+        } catch (error) {
+            console.log('Get artist data error: ', error);
+        }
+    };
+
+    watch(() => currentPlaying.authorID,
+        async (newAuthorID) => {
+            if (newAuthorID) {
+                await getArtistData();
+            }
+        }
+    );
+</script>
