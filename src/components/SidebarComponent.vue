@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <div class="w-full h-auto p-4 bg-[#121212] rounded-2xl flex flex-col gap-4">
+        <div class="w-full h-auto p-4 bg-[#121212] rounded-2xl flex flex-col gap-4 overflow-scroll">
             <div class="w-full flex flex-row justify-between">
                 <div class="flex flex-row gap-4 text-white text-xl items-center cursor-pointer">
                     <i className='bx bx-library edited-btns'></i>
@@ -25,14 +25,23 @@
                 </div>
             </div>
             <SidebarFiltersComponent/>
-            <PlaylistsComponent/>
+            <PlaylistsComponent v-if="filter === 'playlists'"/>
+            <AlbumsComponent v-if="filter === 'albums'"/>
+            <ShowsComponent v-if="filter === 'podcasts'"/>
+            <ArtistsComponent v-if="filter === 'artists'"/>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import PlaylistsComponent from './PlaylistsComponent.vue';
-import SidebarFiltersComponent from './SidebarFiltersComponent.vue';
+    import { computed } from 'vue';
+    import PlaylistsComponent from './PlaylistsComponent.vue';
+    import SidebarFiltersComponent from './SidebarFiltersComponent.vue';
+    import { useSidebarFilterStore } from '@/stores/SidebarFiltersStore';
+    import AlbumsComponent from './AlbumsComponent.vue';
+    import ShowsComponent from './ShowsComponent.vue';
+    import ArtistsComponent from './ArtistsComponent.vue';
 
-/*121212*/
+    const sidebarFiltersStore = useSidebarFilterStore();
+    const filter = computed(() => sidebarFiltersStore.sidebarFilterValue);
 </script>

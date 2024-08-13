@@ -20,7 +20,7 @@
 
     const handleLogin = async() =>{
         const client_id = '6c1ba004893b4b3a8533ef45c1269a1a';
-        const redirectUrl = 'https://spotify-clone-xi-drab.vercel.app/';
+        const redirectUrl = 'http://localhost:5173/';
         const apiUrl = 'https://accounts.spotify.com/authorize';
         const response_type = 'code';
         const scope = ['user-read-email', 
@@ -30,7 +30,9 @@
                         'user-read-currently-playing',
                         'user-read-recently-played',
                         'user-read-playback-position',
-                        'user-top-read'];
+                        'user-top-read',
+                        'user-library-read',
+                        'user-follow-read'];
         window.location.href = `${apiUrl}?&client_id=${client_id}&redirect_uri=${redirectUrl}&scope=${scope.join(" ")}&response_type=token&show_daialog=true`;
     }
 </script>

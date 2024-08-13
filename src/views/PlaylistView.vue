@@ -26,7 +26,6 @@
                         <th>Tytuł</th>
                         <th>Album</th>
                         <th><i class='bx bx-time' ></i></th>
-                        <th></th>
                     </tr>
                     </thead>
 
