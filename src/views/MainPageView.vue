@@ -16,6 +16,7 @@
             <PlayerComponent/>
         </div>
     </div>
+    <AddToPlaylistWindow v-if="playlistStore.showAddToPlaylistWindow"/>
 </template>
 
 <script setup lang="ts">
@@ -23,4 +24,9 @@
     import SidebarComponent from '@/components/SidebarComponent.vue';
     import PlayerComponent from '@/components/PlayerComponent.vue';
     import NowIsPlayingComponent from '@/components/NowIsPlayingComponent.vue';
+    import AddToPlaylistWindow from '@/components/AddToPlaylistWindow.vue';
+    import { usePlaylistStore } from '@/stores/PlaylistStore';
+
+    const playlistStore = usePlaylistStore();
+
 </script>

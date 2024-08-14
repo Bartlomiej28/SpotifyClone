@@ -8,8 +8,8 @@
                 <p class="text-white">{{ trackName }}</p>
                 <p class=" text-slate-400 text-xs font-bold">{{ trackArtists.toString() }}</p>
             </div>
-            <button>
-                <i class='bx bx-heart text-green-400' ></i>
+            <button @click="handleLikeUnlikeTrack">
+                <i :class="`bx ${likeState === true ? 'bxs-heart' : 'bx-heart'} text-green-400 duration-300 ease-in-out`"></i>
             </button>
         </div>
         <div class="w-6/12 flex flex-col justify-center items-center  px-16">
@@ -53,9 +53,64 @@
     const trackThumbnail = ref("")
     const trackAuthorID = ref("")
 
+    const likeState = ref(false)
 
+    const checkUsersSavedTracks = async() =>{
+        try {
+            const response = await axios.get(`https://api.spotify.com/v1/me/tracks/contains?ids=${trackID.value}`,{
+                headers: {
+                    Authorization: "Bearer " + tokenStore.tokenValue,
+                    "Content-Type": "application/json",
+                },
+            })
+            likeState.value = response.data[0]
+        } catch (error) {
+            console.log("Check user's saved tracks error: ", error)
+        }
+    }
 
+    const handleLikeTrack = async() =>{
+        try {
+            await axios.put(`https://api.spotify.com/v1/me/tracks`,
+            { 
+                ids: [trackID.value] 
+            },
+            {
+                headers: {
+                    Authorization: "Bearer " + tokenStore.tokenValue,
+                    "Content-Type": "application/json",
+                },
+                data:{
+                    "ids": trackID.value
+                }
+            })
+        } catch (error) {
+            console.log('Like track error: ', error)
+        }
+    }
 
+    const handleUnlikeTrack = async() =>{
+        try {
+            await axios.delete(`https://api.spotify.com/v1/me/tracks?ids=${trackID.value}`,{
+                headers:{
+                    Authorization: "Bearer " + tokenStore.tokenValue,
+                    "Content-Type": "application/json",
+                }
+            })
+        } catch (error) {
+            console.log('Unlike track error: ', error)
+        }
+    }
+
+    const handleLikeUnlikeTrack = async() =>{
+        if(likeState.value){
+            await handleUnlikeTrack();
+            await checkUsersSavedTracks();
+        }else{
+           await handleLikeTrack();
+           await checkUsersSavedTracks();
+        }
+    }
 
     const getCurrentTrack = async () => {
     try {
@@ -85,7 +140,8 @@
     }
 };
     onMounted(async()=>{
-        await getCurrentTrack()
+        await getCurrentTrack();
+        await checkUsersSavedTracks();
     })
     
 </script>
