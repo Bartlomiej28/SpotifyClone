@@ -1,65 +1,67 @@
 <template>
-    <div class="w-full h-screen p-2 overflow-y-auto bg-black">
-        <div class="w-full h-56 flex flex-row gap-4 items-center bg-gradient-to-b from-slate-300 to-black">
-            <div class=" w-72 h-56">
-                <img :src="playlistImage" class="bg-white w-full h-full object-cover object-center" alt="Playlist image"/>
+    <LoadingWindowComponent v-if="isLoading"/>
+    <div v-else class="w-full h-screen p-2 overflow-y-auto bg-black">
+        <div class="w-full h-auto flex flex-col md:flex-row gap-4 items-center bg-gradient-to-b from-slate-300 to-black p-4">
+            <div class=" w-1/2 aspect-auto">
+                <img :src="playlistImage" class="w-full h-full object-cover object-center aspect-square" alt="Playlist image"/>
             </div>
-            <div class="w-full h-auto flex flex-col gap-2">
-                <p class="text-white">Playlista publiczna</p>
-                <p class="text-white text-7xl font-bold">{{ playlistName }}</p>
-                <p class="text-white">{{ playlistDescription }}</p>
-                <div class="w-full h-auto flex flex-row gap-4 text-white items-center">
-                    <p>{{ playlistOwner }}</p>
-                    <p><i class='bx bxs-circle text-xs'></i></p>
-                    <p>zapisano {{ playlistFollowers }} razy</p>
+            <div class="w-full h-auto flex flex-col gap-2 text-center md:text-left">
+                <p class="text-white text-sm md:text-base">Playlista publiczna</p>
+                <p class="text-white text-4xl md:text-7xl font-bold">{{ playlistName }}</p>
+                <p class="text-white text-sm md:text-base">{{ playlistDescription }}</p>
+                <div class="w-full h-auto flex flex-col md:flex-row gap-4 text-white items-center justify-center md:justify-start">
+                    <p class="text-sm md:text-base">{{ playlistOwner }}</p>
+                    <p><i class='bx bxs-circle text-[5px] md:text-xs'></i></p>
+                    <p class="text-sm md:text-base">zapisano {{ playlistFollowers }} razy</p>
                 </div>
             </div>
         </div>
-        <div class="w-full h-auto flex flex-row overflow-x-auto bg-[#121212] text-white p-4">
-
-
-                <table class="table">
-                    <!-- head -->
-                    <thead>
+        <div class="w-full h-auto overflow-x-auto bg-[#121212] text-white p-4">
+            <table class="table-auto min-w-full text-left">
+                <thead>
                     <tr class="text-white opacity-50">
-                        <th>#</th>
-                        <th>Tytuł</th>
-                        <th>Album</th>
-                        <th><i class='bx bx-time' ></i></th>
+                        <th class="px-2 py-2 text-sm">#</th>
+                        <th class="px-2 py-2 text-sm">Tytuł</th>
+                        <th class="px-2 py-2 hidden md:table-cell text-sm">Album</th>
+                        <th class="px-2 py-2 text-center text-sm"><i class='bx bx-time'></i></th>
+                        <th class="px-2 py-2 text-center text-sm"><i class='bx bx-plus'></i></th>
                     </tr>
-                    </thead>
-
-                    <tbody>
-                        <PlaylistTrackComponent v-for="(track, index) in playlistTracks"
-                            :id="track.track.id"
-                            :image="track.track.album.images[2].url"
-                            :title="track.track.name"
-                            :author="track.track.artists.map((artists: any) =>' '+ artists.name)"
-                            :album="track.track.album.name"
-                            :duration="track.track.duration_ms"
-                            :number="index + 1"/>
-                    </tbody>
-
-                    <tfoot>
+                </thead>
+                <tbody>
+                    <PlaylistTrackComponent 
+                        v-for="(track, index) in playlistTracks"
+                        :key="track.track.id"
+                        :id="track.track.id"
+                        :image="track.track.album.images[2].url"
+                        :title="track.track.name"
+                        :author="track.track.artists.map((artists: any) => ' ' + artists.name)"
+                        :album="track.track.album.name"
+                        :duration="track.track.duration_ms"
+                        :uri="track.track.uri"
+                        :number="index + 1"
+                    />
+                </tbody>
+                <tfoot>
                     <tr>
-                        
-                        <th>#</th>
-                        <th>Tytuł</th>
-                        <th>Album</th>
-                        <th><i class='bx bx-time' ></i></th>
-                        <th></th>
+                        <th class="px-2 py-2 text-sm">#</th>
+                        <th class="px-2 py-2 text-sm">Tytuł</th>
+                        <th class="px-2 py-2 hidden md:table-cell text-sm">Album</th>
+                        <th class="px-2 py-2 text-center text-sm"><i class='bx bx-time'></i></th>
+                        <th class="px-2 py-2 text-center text-sm"><i class='bx bx-plus'></i></th>
                     </tr>
-                    </tfoot>
-                </table>
+                </tfoot>
+            </table>
         </div>
     </div>
 </template>
+
 
 <script setup lang="ts">
     import axios from 'axios';
     import { useTokenStore } from '@/stores/tokenStore';
     import { onMounted, ref } from 'vue';
     import PlaylistTrackComponent from '@/components/PlaylistTrackComponent.vue';
+    import LoadingWindowComponent from '@/components/LoadingWindowComponent.vue';
 
     const tokenStore = useTokenStore();
     const playlistID = window.location.href.split('/')[4];
@@ -70,7 +72,7 @@
 
     interface Album {
         name: string;
-        images: Array<{ url: string }>;
+        images: { url: string }[];
     }
 
     interface Track {
@@ -79,37 +81,26 @@
         artists: Artist[];
         album: Album;
         duration_ms: number;
+        uri: string
     }
 
     interface PlaylistTrack {
         track: Track;
     }
 
-    interface Playlist {
-        name: string;
-        description: string;
-        images: Array<{ url: string }>;
-        tracks: {
-            items: PlaylistTrack[];
-        };
-        owner: {
-            display_name: string;
-        };
-        followers: {
-            total: number;
-        };
-    }
-
-    const playlistName = ref<string>("");
-    const playlistDescription = ref<string>("");
-    const playlistImage = ref<string>("");
+    const playlistName = ref("");
+    const playlistDescription = ref("");
+    const playlistImage = ref("");
     const playlistTracks = ref<PlaylistTrack[]>([]);
-    const playlistOwner = ref<string>("");
-    const playlistFollowers = ref<number>(0);
+    const playlistOwner = ref("");
+    const playlistFollowers = ref(0);
+
+    const isLoading = ref(false);
 
     const getCurrentPlaylist = async () => {
         try {
-            const response = await axios.get<Playlist>(`https://api.spotify.com/v1/playlists/${playlistID}`, {
+            isLoading.value = true
+            const response = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`, {
                 headers: {
                     Authorization: "Bearer " + tokenStore.tokenValue,
                     "Content-Type": "application/json",
@@ -125,7 +116,7 @@
             playlistOwner.value = data.owner.display_name;
             playlistFollowers.value = data.followers.total;
 
-            console.log(playlistTracks.value);
+            isLoading.value = false;
         } catch (error) {
             console.log('Get tracks from playlist error: ' + error);
         }

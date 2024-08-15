@@ -34,13 +34,6 @@
                 "name": playlistName.value,
                 "description": playlistDesc.value,
                 "public": true,
-                "images": [
-                    {
-                        "url": "https://e7.pngegg.com/pngimages/4/438/png-clipart-spotify-logo-spotify-mobile-app-computer-icons-app-store-music-free-icon-spotify-miscellaneous-logo.png",
-                        "height": 300,
-                        "width": 300
-                    }
-                 ],
             },
             {
                 headers:{

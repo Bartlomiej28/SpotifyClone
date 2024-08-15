@@ -5,7 +5,6 @@
             :thumbnail="album.album.images[0].url"
             :title="album.album.name"
             :owner="album.album.artists[0].name"/>
-
     </div>
 </template>
 

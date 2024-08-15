@@ -7,7 +7,7 @@
                 :id="playlist.id"
                 :title="playlist.name"
                 :owner="playlist.owner.display_name"
-               
+                :thumbnail="playlist.images[0].url"
             />
             <div class="w-full flex justify-center mt-8">
                 <button @click="handleAddToPlaylist" class="bg-green-500 font-semibold px-4 py-2 rounded-full">Dodaj do Playlisty</button>

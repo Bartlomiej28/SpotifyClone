@@ -1,18 +1,7 @@
 <template>
-    <div class="w-full h-full p-4 bg-black flex flex-col md:flex-row justify-between">
-        <div class="w-full md:w-3/12 h-auto flex flex-row gap-4 items-center">
-            <div class="w-16 h-16 object-cover object-center">
-                <img :src="trackThumbnail" alt="track thumbnail" class="w-full h-full object-cover object-center"/>
-            </div>
-            <div class="flex flex-col gap-0">
-                <p class="text-white">{{ trackName }}</p>
-                <p class="text-slate-400 text-xs font-bold">{{ trackArtists.toString() }}</p>
-            </div>
-            <button @click="handleLikeUnlikeTrack">
-                <i :class="`bx ${likeState === true ? 'bxs-heart' : 'bx-heart'} text-green-400 duration-300 ease-in-out`"></i>
-            </button>
-        </div>
-        <div class="w-full md:w-6/12 flex flex-col justify-center items-center px-0 md:px-16">
+    <div v-if="trackID" class="w-full h-auto flex flex-col relative">
+        <NowIsPlayingComponent/>
+        <div class="w-full h-20 flex flex-col justify-center items-center z-50 sticky bottom-0 left-0 bg-black">
             <div class="flex flex-row gap-4">
                 <button class="h-7 w-7 rounded-full flex justify-center items-center text-3xl text-green-400">
                     <i class='bx bx-transfer-alt'></i>
@@ -30,30 +19,17 @@
                 <p class="text-slate-400">3:28</p>
             </div>
         </div>
-        <div class="w-full md:w-3/12 flex flex-row gap-4 p-4 items-center justify-end">
-            <button class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
-                <i class='bx bxs-videos'></i>
-            </button>
-            <button @click="alertWindowStore.ShowAlertWindow('Ze względu na ograniczenia Spotify API, ta funkcja jest niedostępna')" class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
-                <i class='bx bx-microphone'></i>
-            </button>
-            <button @click="alertWindowStore.ShowAlertWindow('Ze względu na ograniczenia Spotify API, ta funkcja jest niedostępna')" class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
-                <i class='bx bx-collection'></i>
-            </button>
-            <button @click="alertWindowStore.ShowAlertWindow('Ze względu na ograniczenia Spotify API, ta funkcja jest niedostępna')" class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
-                <i class='bx bx-speaker'></i>
-            </button>
-        </div>
     </div>
 </template>
 
 <script setup lang="ts">
+    import NowIsPlayingComponent from '@/components/NowIsPlayingComponent.vue';
     import axios from 'axios';
     import { useTokenStore } from '@/stores/tokenStore';
     import { onMounted, ref } from 'vue';
     import { useCurrentPlayingStore } from '@/stores/CurrentPlayingStore';
-    import ChangeTrackComponent from './ChangeTrackComponent.vue';
-    import PlayPauseComponent from './PlayPauseComponent.vue';
+    import ChangeTrackComponent from '@/components/ChangeTrackComponent.vue';
+    import PlayPauseComponent from '@/components/PlayPauseComponent.vue';
     import { useAlretWindowStore } from '@/stores/alertWindowStore';
 
     const tokenStore = useTokenStore();
@@ -157,5 +133,4 @@
         await getCurrentTrack();
         await checkUsersSavedTracks();
     })
-    
 </script>

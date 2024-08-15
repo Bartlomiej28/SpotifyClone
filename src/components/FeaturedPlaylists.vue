@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full h-auto flex flex-wrap">
+    <LoadingWindowComponent v-if="isLoading"/>
+    <div v-else class="w-full h-auto flex flex-wrap">
         <FeaturedPlaylistComponent v-for="playlist in playlists"
             :id="playlist.id"
             :title="playlist.name"
@@ -13,7 +14,8 @@
     import { useTokenStore } from '@/stores/tokenStore';
     import axios from 'axios';
     import { onMounted, ref } from 'vue';
-import FeaturedPlaylistComponent from './FeaturedPlaylistComponent.vue';
+    import FeaturedPlaylistComponent from './FeaturedPlaylistComponent.vue';
+    import LoadingWindowComponent from './LoadingWindowComponent.vue';
 
     type Playlist = {
         description: string,
@@ -24,10 +26,11 @@ import FeaturedPlaylistComponent from './FeaturedPlaylistComponent.vue';
 
     const tokenStore = useTokenStore();
     const playlists = ref<Playlist[]>([])
-
+    const isLoading = ref(false)
 
     const getFeaturedPlaylists = async() =>{
         try {
+            isLoading.value = true
             const response = await axios.get('https://api.spotify.com/v1/browse/featured-playlists?limit=20',{
             headers: {
                     Authorization: "Bearer " + tokenStore.tokenValue,
@@ -35,6 +38,7 @@ import FeaturedPlaylistComponent from './FeaturedPlaylistComponent.vue';
                 },
         });
             playlists.value =  response.data.playlists.items
+            isLoading.value = false
         } catch (error) {
             console.log('Get featured playlists error: ', error)
         }

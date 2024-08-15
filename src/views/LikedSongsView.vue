@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full h-screen p-2 overflow-y-auto bg-black">
+    <LoadingWindowComponent v-if="isLoading"/>
+    <div v-else class="w-full h-screen p-2 overflow-y-auto bg-black">
         <div class="w-full h-auto flex flex-row overflow-x-auto bg-[#121212] text-white p-4">
             <table class="table">
                 <!-- head -->
@@ -43,6 +44,7 @@
     import { useTokenStore } from '@/stores/tokenStore';
     import { onMounted, ref } from 'vue';
     import PlaylistTrackComponent from '@/components/PlaylistTrackComponent.vue';
+    import LoadingWindowComponent from '@/components/LoadingWindowComponent.vue';
 
     type Track = {
         track:{
@@ -63,9 +65,11 @@
 
     const tokenStore = useTokenStore();
     const tracks = ref<Track[]>([]);
+    const isLoading = ref(false)
 
     const getLikedSongs = async () => {
         try {
+            isLoading.value = true
             const response = await axios.get('https://api.spotify.com/v1/me/tracks?limit=50', {
                 headers: {
                     Authorization: "Bearer " + tokenStore.tokenValue,
@@ -73,6 +77,7 @@
                 },
             });
             tracks.value = response.data.items
+            isLoading.value = false
         } catch (error) {
             console.log('Get liked songs error: ', error);
         }

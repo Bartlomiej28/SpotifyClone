@@ -50,7 +50,6 @@
             );
             const {items} = response.data;
             playlists.value = items
-            console.log(response.data.items)
         } catch (error) {
             console.error('Error fetching playlists:', error);
         }
