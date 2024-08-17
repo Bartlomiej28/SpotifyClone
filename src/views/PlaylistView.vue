@@ -1,7 +1,7 @@
 <template>
     <LoadingWindowComponent v-if="isLoading"/>
     <div v-else class="w-full h-screen p-2 overflow-y-auto bg-black">
-        <div class="w-full h-auto flex flex-col md:flex-row gap-4 items-center bg-gradient-to-b from-slate-300 to-black p-4">
+        <div class="w-full h-auto flex flex-col md:flex-row gap-4 items-center bg-gradient-to-b from-violet-600 to-black p-4">
             <div class=" w-1/2 aspect-auto">
                 <img :src="playlistImage" class="w-full h-full object-cover object-center aspect-square" alt="Playlist image"/>
             </div>
@@ -59,12 +59,15 @@
 <script setup lang="ts">
     import axios from 'axios';
     import { useTokenStore } from '@/stores/tokenStore';
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, watch } from 'vue';
     import PlaylistTrackComponent from '@/components/PlaylistTrackComponent.vue';
     import LoadingWindowComponent from '@/components/LoadingWindowComponent.vue';
+    import { useRoute } from 'vue-router';
+
+    const route = useRoute();
 
     const tokenStore = useTokenStore();
-    const playlistID = window.location.href.split('/')[4];
+
 
     interface Artist {
         name: string;
@@ -99,6 +102,7 @@
 
     const getCurrentPlaylist = async () => {
         try {
+            const playlistID = route.params.id
             isLoading.value = true
             const response = await axios.get(`https://api.spotify.com/v1/playlists/${playlistID}`, {
                 headers: {
@@ -125,4 +129,9 @@
     onMounted(async () => {
         await getCurrentPlaylist();
     });
+
+    watch(() => route.params.id, () => {
+        getCurrentPlaylist(); 
+    }
+);
 </script>

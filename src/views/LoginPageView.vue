@@ -20,7 +20,7 @@
 
     const handleLogin = async() =>{
         const client_id = '6c1ba004893b4b3a8533ef45c1269a1a';
-        const redirectUrl = 'http://localhost:5173/';
+        const redirectUrl = 'spotify-clone-xi-drab.vercel.app';
         const apiUrl = 'https://accounts.spotify.com/authorize';
         const response_type = 'code';
         const scope = ['user-read-email', 

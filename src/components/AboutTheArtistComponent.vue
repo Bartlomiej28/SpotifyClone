@@ -5,14 +5,14 @@
         </div>
         <div class="w-full h-auto flex flex-col gap-0 p-4 bg-[#242424] rounded-b-xl">
             <RouterLink :to="`/profile/${profileID}`" class="text-xl font-bold text-white cursor-pointer hover:underline">{{ profileName }}</RouterLink>
-            <div class="w-full flex flex-row justify-between items-center">
-                <p class="text-[#9c9c9c]">{{ followers }} słuchaczy w tym miesiącu</p>
+            <div class="w-full flex flex-col sm:flex-col md:flex-row justify-between items-center">
+                <p class="text-[rgb(156,156,156)]">{{ followers }} słuchaczy w tym miesiącu</p>
                 <button @click="followUnfollowProfile" class="px-4 py-2 text-white border border-[#9c9c9c] rounded-full">
                     <p class="text-sm" v-if="isUserFollowProfile">Przestań obserwować</p>
                     <p class="text-sm" v-else>Obserwuj</p>
                 </button>
             </div>
-            <p class="w-full h-28 text-ellipsis text-[#9c9c9c] text-sm">
+            <p class="w-full h-auto text-ellipsis text-[#9c9c9c] text-sm">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi debitis, ab ipsam, itaque tenetur nisi rerum officia eveniet incidunt possimus vel nesciunt quo vero reiciendis, pariatur voluptas labore molestiae culpa!
             </p>
         </div>

@@ -1,8 +1,8 @@
 <template>
     <LoadingWindowComponent v-if="isLoading"/>
-    <div v-else class="w-full h-screen p-2 overflow-y-auto bg-black">
+    <div v-else class="w-full h-screen p-2 overflow-y-auto bg-black pt-16">
     
-        <div class="w-full h-auto flex flex-col md:flex-row gap-4 items-center bg-gradient-to-b from-slate-300 to-black p-4">
+        <div class="w-full h-auto flex flex-col md:flex-row gap-4 items-center bg-gradient-to-b from-violet-600 to-black p-4">
        
             <div class="w-1/2 aspect-auto">
                 <img :src="profileThumbnail" class="w-full h-full object-cover object-center aspect-square" alt="Profile image"/>

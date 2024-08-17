@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-    import { useSidebarFilterStore } from '@/stores/SidebarFiltersStore';
+    import { useSidebarStore } from '@/stores/SidebarStore';
     import { computed } from 'vue';
-    const sidebarFilterStore = useSidebarFilterStore();
+    const sidebarFilterStore = useSidebarStore();
 
     const filter = computed(()=> sidebarFilterStore.sidebarFilterValue);
 

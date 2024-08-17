@@ -8,6 +8,7 @@ import ProfilePopularView from '@/views/ProfilePopularView.vue'
 import ProfileAlbumsView from '@/views/ProfileAlbumsView.vue'
 import LikedSongsView from '@/views/LikedSongsView.vue'
 import TrackPageView from '@/views/TrackPageView.vue'
+import MyProfileView from '@/views/MyProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,7 @@ const router = createRouter({
     { path: '/album/:id', component: AlbumPageView },
     { path: '/liked', component: LikedSongsView },
     { path: '/track/:id', component: TrackPageView },
+    { path: '/my-profile/:id', component: MyProfileView },
   ]
 })
 

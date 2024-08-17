@@ -1,6 +1,6 @@
 <template>
     <LoadingWindowComponent v-if="isLoading"/>
-    <div v-else class="w-full h-auto flex flex-wrap gap-4 p-4">
+    <div v-else class="w-full h-auto gap-4 p-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         <AlbumComponent 
             v-for="album in albums" 
             :key="album.id"
