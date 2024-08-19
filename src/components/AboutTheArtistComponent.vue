@@ -93,7 +93,6 @@
                     "Content-Type": "application/json",
                 },
             });
-            console.log(response.data);
             const { id, images, followers: artistFollowers, name } = response.data;
             followers.value = artistFollowers.total;
             profileID.value = id;

@@ -9,7 +9,7 @@
     import axios from 'axios';
     import { useAlretWindowStore } from '@/stores/alertWindowStore';
     
-    const alertWindowState = useAlretWindowStore();
+    const alertWindowStore = useAlretWindowStore();
     const tokenStore = useTokenStore();
 
     const handleChangeTrackToNext = async() =>{
@@ -23,8 +23,7 @@
                 }
             );
         } catch (error) {
-            alertWindowState.ShowAlertWindow("Ta funkcja dostępna jest dla użytkowników Spotify Premium");
-            console.log(alertWindowState.showAlertWindow)
+            alertWindowStore.ShowAlertWindow("Ta funkcja dostępna jest dla użytkowników Spotify Premium");
             console.log('Change track to next error: ',error)
         }
     }

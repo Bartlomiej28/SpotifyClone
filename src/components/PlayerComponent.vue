@@ -14,21 +14,17 @@
         </div>
         <div class="w-full md:w-6/12 flex flex-col justify-center items-center px-0 md:px-16">
             <div class="flex flex-row gap-4">
-                <button class="h-7 w-7 rounded-full flex justify-center items-center text-3xl text-green-400">
+                <button @click="alertWindowStore.ShowAlertWindow('Ze względu na ograniczenia Spotify API, ta funkcja jest niedostępna')" class="h-7 w-7 rounded-full flex justify-center items-center text-3xl text-green-400">
                     <i class='bx bx-transfer-alt'></i>
                 </button>
                 <ChangeTrackComponent :type="'previous'"/>
                 <PlayPauseComponent/>
                 <ChangeTrackComponent :type="'next'"/>
-                <button class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
+                <button @click="handleRepeat" class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
                     <i class='bx bx-repeat'></i>
                 </button>
             </div>
-            <div class="flex flex-row gap-1 w-full justify-center">
-                <p class="text-slate-400">0:44</p>
-                <input type="range" min="1" max="100" value="12" class="w-8/12" id="myRange">
-                <p class="text-slate-400">3:28</p>
-            </div>
+           
         </div>
         <div class="w-full md:w-3/12 flex flex-row gap-4 p-4 items-center justify-end">
             <button class="h-7 w-7 rounded-full flex justify-center items-center text-2xl text-[#b3b3b3]">
@@ -67,6 +63,20 @@
     const trackAuthorID = ref("")
 
     const likeState = ref(false)
+
+    const handleRepeat = async() =>{
+        try {
+            const response = await axios.put('https://api.spotify.com/v1/me/player/repeat?state=context',{},{
+                headers: {
+                    Authorization: "Bearer " + tokenStore.tokenValue,
+                    "Content-Type": "application/json",
+                }
+            })
+        } catch (error) {
+            alertWindowStore.ShowAlertWindow("Ta funkcja dostępna jest dla użytkowników Spotify Premium");
+            console.log('Change track to next error: ',error)
+        }
+    }
 
     const checkUsersSavedTracks = async() =>{
         try {

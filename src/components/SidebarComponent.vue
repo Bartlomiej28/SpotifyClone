@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-full bg-black flex flex-col gap-4 p-2">
-        <p class="w-full text-white text-2xl px-4">
+        <p class="w-full text-white text-2xl px-4 lg:hidden">
             <i @click="handleCloseSidebar" class='bx bx-x' ></i>
         </p>
         <div class="w-full h-auto p-4 bg-[#121212] rounded-2xl flex flex-col gap-4">

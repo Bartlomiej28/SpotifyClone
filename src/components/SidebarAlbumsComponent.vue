@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full h-auto flex flex-col">
+    <LoadingWindowComponent v-if="isLoading"/>
+    <div v-else class="w-full h-auto flex flex-col">
         <AlbumSidebarComponent v-for="album in albums"
             :id="album.album.id"
             :thumbnail="album.album.images[0].url"
@@ -13,6 +14,7 @@
     import { useTokenStore } from '@/stores/tokenStore';
     import { onMounted, ref } from 'vue';
     import AlbumSidebarComponent from './AlbumSidebarComponent.vue';
+import LoadingWindowComponent from './LoadingWindowComponent.vue';
     
     type Album ={
         album:{
@@ -29,10 +31,11 @@
 
     const tokenStore = useTokenStore();
     const albums = ref<Album[]>([])
+    const isLoading = ref(false)
 
-    console.log(tokenStore.tokenValue)
     const getUsersAlbums = async() =>{
         try {
+            isLoading.value = true
             const response = await axios.get('https://api.spotify.com/v1/me/albums?limit=10',{
                 headers:{
                         Authorization: "Bearer " + tokenStore.tokenValue,
@@ -40,6 +43,7 @@
                     },
             })
             albums.value = response.data.items
+            isLoading.value = false
         } catch (error) {
             console.log("Get user's albums error: ", error)
         }

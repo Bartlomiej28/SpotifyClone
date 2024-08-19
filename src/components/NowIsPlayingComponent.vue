@@ -1,11 +1,7 @@
 <template>
     <div class="w-full h-full overflow-y-scroll bg-[#121212] flex flex-col gap-4 pr-4 pl-4 pb-4 relative">
         <div class="w-full py-2 h-auto flex flex-row justify-between items-center bg-[#121212] mt-4 shadow-xl sticky top-0">
-            <p class="font-bold text-white">Polubione utwory</p>
-            <div class="flex flex-row gap-4 text-white">
-                <i class='bx bx-dots-horizontal-rounded text-xl'></i>
-                <i class='bx bx-x text-xl' ></i>
-            </div>
+            <p class="font-bold text-white">Obecny utwór</p>
         </div>
         <div class="w-full h-96 mt-2">
             <img :src="currentPlayingStore.trackThumbnail" alt="current playing" class="w-full h-full"/>

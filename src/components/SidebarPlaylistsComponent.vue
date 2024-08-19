@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full h-auto flex flex-col">
+    <LoadingWindowComponent v-if="isLoading"/>
+    <div v-else class="w-full h-auto flex flex-col">
         <RouterLink to="/liked" class="w-full flex flex-row gap-4 hover:bg-[#1a1a1a] p-2">
             <div class="w-16">
                 <img src="/likedSongs.png" class="w-full object-cover object-center aspect-square bg-white rounded-xl"/>
@@ -23,6 +24,7 @@
     import { onMounted } from 'vue';
     import { ref } from 'vue';
     import PlaylistComponent from './PlaylistComponent.vue';
+import LoadingWindowComponent from './LoadingWindowComponent.vue';
 
 
     type Playlist = {
@@ -37,9 +39,11 @@
 
     const tokenStore = useTokenStore();
     const playlists = ref<Playlist[]>([]);
-    
+    const isLoading = ref(false)
+
     const getPlaylists = async() =>{
         try {
+            isLoading.value = true
             const response = await axios.get("https://api.spotify.com/v1/me/playlists",
                 {
                     headers:{
@@ -50,6 +54,7 @@
             );
             const {items} = response.data;
             playlists.value = items
+            isLoading.value = false
         } catch (error) {
             console.error('Error fetching playlists:', error);
         }
