@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useSidebarStore = defineStore('sidebarfilter',{
   state : () => ({
     sidebarFilterValue: "playlists",
-    showSidebar: false
+    showSidebar: false,
+    showCreateNewPlaylistWindow: false
   }),
   actions:{
     changeSidebarFilter(newFilter : string){
@@ -11,6 +12,9 @@ export const useSidebarStore = defineStore('sidebarfilter',{
     },
     showHideSidebar(){
       this.showSidebar = !this.showSidebar
+    },
+    showCreateNewPlaylistWIndow(){
+      this.showCreateNewPlaylistWindow = !this.showCreateNewPlaylistWindow
     }
 
   }

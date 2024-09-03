@@ -29,7 +29,7 @@
             <SidebarArtistsComponent v-if="filter === 'artists'"/>
         </div>
     </div>
-    <CreateNewPlaylist v-if="showCreateNewPlaylist" :handleShowCreateNewPlaylistWindow="handleShowCreateNewPlaylistWindow"/>
+    
 </template>
 
 
@@ -42,14 +42,14 @@
     import CreateNewPlaylist from './CreateNewPlaylist.vue';
     import SidebarArtistsComponent from './SidebarArtistsComponent.vue';
     import { useAlretWindowStore } from '@/stores/alertWindowStore';
-
-    const showCreateNewPlaylist = ref(false);
+    
+    
     const alertWindowStore = useAlretWindowStore();
     const sidebarStore = useSidebarStore();
     const filter = computed(() => sidebarStore.sidebarFilterValue);
 
     const handleShowCreateNewPlaylistWindow = () =>{
-        showCreateNewPlaylist.value = !showCreateNewPlaylist.value
+        sidebarStore.showCreateNewPlaylistWIndow();
     }
 
     const handleCloseSidebar = () =>{
