@@ -10,11 +10,11 @@
           <i class="bx bxl-spotify text-4xl"></i>
           <span class="logo-name text-xl flex items-center ml-2">Spotify</span>
         </div>
-        <h2 class="text-2xl">Zaloguj się, aby kontynuować.</h2>
+        <h2 class="text-2xl mb-4">Zaloguj się, aby kontynuować.</h2>
           <p>Zaloguj się za pomocą tych danych.</p>
           <p>Login/Email: portfolio.bartlomiej.boczylo@gmail.com</p>
           <p>Hasło: Sp0tify12*</p>
-          <p>Aby uzyskać dostęp, zaloguj się na konto w aplikacji Spotify za pomocą powyższych danych i upewnij się, że muzyka jest odtwarzana przed kontynuacją.</p>
+          <p class="text-center mb-4">Aby uzyskać dostęp, zaloguj się w innym oknie przeglądarki na konto w aplikacji Spotify za pomocą powyższych danych i upewnij się, że muzyka jest odtwarzana przed kontynuacją. Następnie wróć do tej aplikacji.</p>
         <button class="bg-green-500 mt-32 rounded-full px-8 py-2" @click="handleLogin">Zaloguj się</button>
       </div>
     </div>
