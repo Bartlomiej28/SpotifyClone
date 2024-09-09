@@ -28,6 +28,7 @@
             <SidebarAlbumsComponent v-if="filter === 'albums'"/>
             <SidebarArtistsComponent v-if="filter === 'artists'"/>
         </div>
+        <p class="w-full flex items-end text-wrap h-auto text-white">All rights reserved by Bartłomiej Boczyło</p>
     </div>
     
 </template>
