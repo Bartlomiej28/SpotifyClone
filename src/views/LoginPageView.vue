@@ -5,7 +5,7 @@
         class="w-full h-full absolute top-0 left-0 bg-cover bg-center blur-sm bg-[url('https://community.spotify.com/t5/image/serverpage/image-id/104663iE4B9E37436B66D15/image-size/large?v=v2&px=999')]">
       </div>
 
-      <div class="w-8/12 h-2/5 bg-[#121212] text-white p-4 z-10 flex flex-col items-center">
+      <div class="w-8/12 h-4/5 bg-[#121212] text-white p-4 z-10 flex flex-col items-center">
         <div class="flex justify-center p-2">
           <i class="bx bxl-spotify text-4xl"></i>
           <span class="logo-name text-xl flex items-center ml-2">Spotify</span>
@@ -14,7 +14,7 @@
           <p>Zaloguj się za pomocą tych danych.</p>
           <p>Login/Email: portfolio.bartlomiej.boczylo@gmail.com</p>
           <p>Hasło: Sp0tify12*</p>
-          <p class="text-center mb-4">Aby uzyskać dostęp, zaloguj się w innym oknie przeglądarki na konto w aplikacji Spotify za pomocą powyższych danych i upewnij się, że muzyka jest odtwarzana przed kontynuacją. Następnie wróć do tej aplikacji.</p>
+          <p class="text-center mb-4 mt-4">Aby uzyskać dostęp, zaloguj się w innym oknie przeglądarki na konto w aplikacji Spotify za pomocą powyższych danych i upewnij się, że muzyka jest odtwarzana przed kontynuacją. Następnie wróć do tej aplikacji.</p>
         <button class="bg-green-500 mt-32 rounded-full px-8 py-2" @click="handleLogin">Zaloguj się</button>
       </div>
     </div>
