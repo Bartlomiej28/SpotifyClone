@@ -21,17 +21,19 @@
         <p class="text-center mb-4 mt-4 font-bold">
           Zaloguj się wykonując poniższe kroki:
         </p>
-        <div class="w-full flex flex-col">
-          <p class="w-full h-auto text-wrap">
+        <div class="w-auto flex flex-col items-start mx-auto">
+          <p class="text-wrap">
             1. Otwórz prawdziwą aplikację Spotify w innym oknie przeglądarki
           </p>
-          <p class="">
+          <p class="text-wrap">
             2. W prawdziwej aplikacji Spotify zaloguj się za pomocą powyższych
             danych i włącz muzykę.
           </p>
-          <p>3. Wróć do tej aplikacji i kliknij przycisk "Zaloguj się"</p>
+          <p class="text-wrap">
+            3. Wróć do tej aplikacji i kliknij przycisk "Zaloguj się"
+          </p>
         </div>
-        <button class="bg-green-500 mt-8 rounded-full px-8 py-2">
+        <button @click="handleLogin" class="bg-green-500 mt-8 rounded-full px-8 py-2">
           Zaloguj się
         </button>
       </div>
